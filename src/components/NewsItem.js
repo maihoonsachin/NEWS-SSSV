@@ -5,12 +5,21 @@ export class NewsItem extends Component{
         let {title, description,imageUrl,newsId} = this.props;
         return(
             <div className="my-3">
-                <div className="card" style={{width: "18rem"}}>
-                    <img src={imageUrl} className="card-img-top" alt="..."/>
+                <div className="card">
+                    <span className="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{left: '90%',zIndex:'1'}}>
+                            {this.props.source}
+                    </span>
+                    <img src={imageUrl}  className="card-img-top" alt="..." onError={(e) => {
+                        e.target.onerror = null; // Prevents infinite loops if default image also fails
+                            e.target.src = "https://ychef.files.bbci.co.uk/624x351/p0nbvgvn.jpg";
+                        }}/> 
                     <div className="card-body">
+                        
                         <h5 className="card-title">{title}...</h5>
                         <p className="card-text">{description}...</p>
                         <a href={newsId} target="blank" className="btn btn-sm btn-primary">Read More</a>
+                        <p className="card-text"><small className="text-body-secondary">{`By ${(this.props.author)? this.props.author : 'Unknown'} on :${new Date(this.props.publishedAt).toGMTString()}`}</small></p>
+
                     </div>
                 </div>
             </div>
